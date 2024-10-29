@@ -52,7 +52,8 @@ router.post('/signin',async (req:Request,res:Response)=>{
         return res.json({
             token: token
         })
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.send('Incorrect username or password');
     }
 })

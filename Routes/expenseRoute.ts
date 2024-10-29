@@ -21,7 +21,8 @@ expense.post('/transaction',IsloggedIn,async (req:Request,res: Response)=>{
             }
         })
         Id=User?.id;
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.send("something went wrong");
     }
 
@@ -68,7 +69,8 @@ expense.post('/totalincome',IsloggedIn,async (req: Request,res: Response)=>{
         return res.json({
             monthlyBudget: User?.monthlyBudget
         })
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.send("something went wrong");
     }
 
@@ -87,7 +89,8 @@ expense.post('/totalexpense',IsloggedIn,async (req:Request,res:Response)=>{
             }
         })
         Id=User?.id;
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.send("something went wrong");
     }
     const date=new Date();
@@ -120,7 +123,8 @@ expense.post('/monthlyexpense',IsloggedIn,async (req,res)=>{
             }
         })
         Id=User?.id;
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.send("something went wrong");
     }
     const userExpense=await prisma.expense.findMany({
@@ -152,7 +156,8 @@ expense.post('/expenselist',IsloggedIn,async (req,res)=>{
             }
         })
         Id=User?.id;
-    }catch{
+    }catch(e){
+        console.log(e);
         return res.send("something went wrong");
     }
 
