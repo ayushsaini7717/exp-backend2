@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 // import jwt, { JwtPayload } from 'jsonwebtoken';
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const IsloggedIn_1 = __importDefault(require("../middlewares/IsloggedIn"));
 const verfication_1 = __importDefault(require("../middlewares/verfication"));
 const router = express_1.default.Router();
 const client_1 = require("@prisma/client");
@@ -64,7 +63,9 @@ router.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.send('Incorrect username or password');
     }
 }));
-router.get('/check', IsloggedIn_1.default, (req, res) => {
-    return res.send("Currently logged in...");
+router.get('/check', (req, res) => {
+    return res.json({
+        msg: 'working!'
+    });
 });
 exports.default = router;
