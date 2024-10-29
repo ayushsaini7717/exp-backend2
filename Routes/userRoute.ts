@@ -57,8 +57,10 @@ router.post('/signin',async (req:Request,res:Response)=>{
     }
 })
 
-router.get('/check',IsloggedIn,(req:Request,res:Response)=>{
-    return res.send("Currently logged in...");
+router.get('/check',(req:Request,res:Response)=>{
+    return res.json({
+        msg: 'working!'
+    });
 })
 
 
