@@ -3,13 +3,11 @@ import express,{NextFunction, Request,Response} from 'express';
 import jwt from 'jsonwebtoken'
 import IsloggedIn from '../middlewares/IsloggedIn';
 import verification from '../middlewares/verfication';
-import setCSPHeaders from '../middlewares/csp';
 const router=express.Router();
 
 import { PrismaClient } from '@prisma/client'
 import { toNamespacedPath } from 'path';
 
-router.use(setCSPHeaders);
 
 const prisma = new PrismaClient()
 
