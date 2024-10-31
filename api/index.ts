@@ -17,10 +17,14 @@ app.use(
         scriptSrc: ["'self'"],
         styleSrc: ["'self'"],
         frameSrc: ["'self'"],
+        upgradeInsecureRequests: [], // Now this will take effect
       },
-      reportOnly: true, // Set to 'true' to enable report-only mode for testing
+      reportOnly: false, // Enforces the policy
     })
   );
+
+
+ 
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack);
