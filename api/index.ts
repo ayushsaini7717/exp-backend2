@@ -1,8 +1,8 @@
 import express from 'express';
 const port=3000;
 const app=express();
-import router from "../Routes/userRoute";
-import expense from '../Routes/expenseRoute';
+import router from "./userRoute";
+import expense from './expenseRoute';
 import cors from 'cors';
 
 app.use(cors());
