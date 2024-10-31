@@ -15,7 +15,5 @@ app.listen(port,()=>{
 })
 
 
-// {
-//   "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
-// }	
+	
 
