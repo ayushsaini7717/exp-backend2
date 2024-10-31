@@ -13,3 +13,9 @@ app.use('/api/v1/expense',expense);
 app.listen(port,()=>{
     console.log(`server is running on port: ${port}`);
 })
+
+
+// {
+//   "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+// }	
+
