@@ -23,10 +23,10 @@ router.post('/signup',verification,async (req:Request,res:Response)=>{
                 monthlyBudget: body.monthlyBudget
             }
         })
-
-        const token=jwt.sign(body.password,'ayush-secret');
+        const token=jwt.sign(body.username,'ayush-secret');
         return res.json({
-            token: token
+            token: token,
+            userId: user.id
         })
     }catch(error){
         console.log(error);
@@ -50,12 +50,34 @@ router.post('/signin',async (req:Request,res:Response)=>{
         }
         const token=jwt.sign(body.username,'ayush-secret');
         return res.json({
-            token: token
+            token: token,
+            userId: user.id
         })
     }catch(e){
         console.log(e);
         return res.send('Incorrect username or password');
     }
+})
+
+router.post('/addincome',IsloggedIn,async (req:Request,res:Response)=>{
+    const body=req.body;
+    let Id=req.body.userId;
+    try{
+        const addincome=await prisma.user.update({
+            where: {
+                id: Id,
+            },data: {
+                monthlyBudget: {increment: body.amount}
+            }
+        })
+        return res.json({
+            msg: "Done!"
+        })
+    }catch(e){
+        console.log(e);
+        return res.send("money not added!")
+    }
+    
 })
 
 router.get('/check',(req:Request,res:Response)=>{

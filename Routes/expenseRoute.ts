@@ -10,22 +10,10 @@ const prisma = new PrismaClient();
 
 
 
-expense.post('/transaction',IsloggedIn,async (req:Request,res: Response)=>{
+expense.post('/spend',IsloggedIn,async (req:Request,res: Response)=>{
     const body=req.body;
-    let Id:any="";
-    try{
-        const User=await prisma.user.findFirst({
-            where:{
-                username: body.username,
-                password: body.password
-            }
-        })
-        Id=User?.id;
-    }catch(e){
-        console.log(e);
-        return res.send("something went wrong");
-    }
-
+    let Id=req.body.userId;
+    
     try{
         const income=await prisma.user.findFirst({
             where:{
@@ -40,6 +28,7 @@ expense.post('/transaction',IsloggedIn,async (req:Request,res: Response)=>{
             data:{
                 categories: body.categories,
                 spend: body.spend,
+                date: body.date,
                 month: body.month,
                 year: body.year,
                 user: {
@@ -56,12 +45,11 @@ expense.post('/transaction',IsloggedIn,async (req:Request,res: Response)=>{
 
 expense.post('/totalincome',IsloggedIn,async (req: Request,res: Response)=>{
     const body=req.body;
-    let Id:any="";
+    let Id=req.body.userId;
     try{
         const User=await prisma.user.findFirst({
             where:{
-                username: body.username,
-                password: body.password
+                id: Id
             },select:{
                 monthlyBudget: true
             }
@@ -80,22 +68,11 @@ expense.post('/totalincome',IsloggedIn,async (req: Request,res: Response)=>{
 expense.post('/totalexpense',IsloggedIn,async (req:Request,res:Response)=>{
     const body=req.body;
     let totalexpense=0;
-    let Id:any="";
-    try{
-        const User=await prisma.user.findFirst({
-            where:{
-                username: body.username,
-                password: body.password
-            }
-        })
-        Id=User?.id;
-    }catch(e){
-        console.log(e);
-        return res.send("something went wrong");
-    }
+    let Id=req.body.userId;
+    
     const date=new Date();
     const currmonth=date.getMonth()+1;
-    // console.log(currmonth);
+ 
     const Expense=await prisma.expense.findMany({
         where: {
             userId: Id,
@@ -114,23 +91,13 @@ expense.post('/totalexpense',IsloggedIn,async (req:Request,res:Response)=>{
 expense.post('/monthlyexpense',IsloggedIn,async (req,res)=>{
     const body=req.body;
     let totalexpense=0;
-    let Id:any="";
-    try{
-        const User=await prisma.user.findFirst({
-            where:{
-                username: body.username,
-                password: body.password
-            }
-        })
-        Id=User?.id;
-    }catch(e){
-        console.log(e);
-        return res.send("something went wrong");
-    }
+    let Id=req.body.userId;
+    const date=new Date();
+    
     const userExpense=await prisma.expense.findMany({
         where: {
             userId: Id,
-            year: 2024
+            year: date.getFullYear()
         }
     })
 
@@ -147,19 +114,8 @@ expense.post('/monthlyexpense',IsloggedIn,async (req,res)=>{
 expense.post('/expenselist',IsloggedIn,async (req,res)=>{
     const body=req.body;
     let totalexpense=0;
-    let Id:any="";
-    try{
-        const User=await prisma.user.findFirst({
-            where:{
-                username: body.username,
-                password: body.password
-            }
-        })
-        Id=User?.id;
-    }catch(e){
-        console.log(e);
-        return res.send("something went wrong");
-    }
+    let Id=req.body.userId;
+   
 
     const date=new Date();
     const currmonth=date.getMonth()+1;
@@ -173,8 +129,7 @@ expense.post('/expenselist',IsloggedIn,async (req,res)=>{
             categories: true
         }
     })
-    // console.log("count is: "+list.length+" array is: "+list);
-    // console.log(list);
+    
     return res.json({
         count: list.length,
         list: list

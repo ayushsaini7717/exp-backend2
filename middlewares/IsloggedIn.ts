@@ -6,8 +6,9 @@ import jwt from 'jsonwebtoken'
 
 export const IsloggedIn=(async (req:Request,res:Response,next:NextFunction)=>{
     try{
-        const body=req.body;
-        const verify=jwt.verify(body.jwt,'ayush-secret');
+        let token:string=req.headers.authorization ?? "";
+        token = token.split(" ")[1];
+        const verify=jwt.verify(token,'ayush-secret');
         if(verify){
             next();
         }else{
