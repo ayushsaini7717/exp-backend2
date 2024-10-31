@@ -5,8 +5,11 @@ expense.use(express.json());
 import IsloggedIn from '../middlewares/IsloggedIn';
 import { PrismaClient } from '@prisma/client';
 import exp from 'constants';
+import setCSPHeaders from '../middlewares/csp';
 
 const prisma = new PrismaClient();
+
+expense.use(setCSPHeaders);
 
 
 
