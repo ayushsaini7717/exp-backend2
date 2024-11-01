@@ -12,17 +12,13 @@ import path from 'path';
 
 app.use(cors());
 
-const cspMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'self'; script-src-elem 'self' https://trusted-cdn.com https://vercel.live"
-  );
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "default-src 'none'; script-src 'self' https://vercel.live;");
   next();
-};
+});
 
 
-// Apply the CSP middleware
-app.use(cspMiddleware);
+
 
 
 app.use('/api/v1/user',router);
