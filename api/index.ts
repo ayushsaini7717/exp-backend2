@@ -12,10 +12,12 @@ import path from 'path';
 
 app.use(cors());
 
-// app.use((req, res, next) => {
-//   res.setHeader("Content-Security-Policy", "default-src 'none'; script-src 'self' https://vercel.live; img-src 'self' data: https://expense-backend-xpxu.vercel.app;");
-//   next();
-// });
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "default-src 'none'; script-src 'self' https://vercel.live; img-src 'self' data: https://expense-backend-xpxu.vercel.app;");
+  next();
+});
+
+
 
 
 
