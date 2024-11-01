@@ -14,9 +14,10 @@ app.use(cors());
 
 const cspMiddleware = (req: Request, res: Response, next: NextFunction) => {
   res.setHeader(
-    "Content-Security-Policy",
+    "Content-Security-Policy-Report-Only",
     "default-src 'self'; script-src-elem 'self' https://trusted-cdn.com https://vercel.live; connect-src 'self' https://vercel.live"
   );
+  
   
   next();
 };
