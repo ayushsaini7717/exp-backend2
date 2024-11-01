@@ -13,7 +13,7 @@ import path from 'path';
 app.use(cors());
 
 app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "default-src 'none'; script-src 'self' https://vercel.live; img-src 'self' data: https://expense-backend-xpxu.vercel.app;");
+  res.setHeader("Content-Security-Policy", "default-src 'none'; script-src 'self' https://vercel.live; img-src 'self' https://exp-backend2.vercel.app/favicon.ico;");
   next();
 });
 
@@ -21,15 +21,15 @@ app.use((req, res, next) => {
 
 
 
-const cspMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src *; img-src 'self' https://expense-backend-xpxu.vercel.app; script-src-elem 'self' https://vercel.live; connect-src 'self' https://vercel.live"
-  );
-  next();
-};
+// const cspMiddleware = (req: Request, res: Response, next: NextFunction) => {
+//   res.setHeader(
+//     "Content-Security-Policy",
+//     "default-src *; img-src 'self' https://expense-backend-xpxu.vercel.app; script-src-elem 'self' https://vercel.live; connect-src 'self' https://vercel.live"
+//   );
+//   next();
+// };
 
-app.use(cspMiddleware);
+// app.use(cspMiddleware);
 
 
 app.use('/api/v1/user',router);
