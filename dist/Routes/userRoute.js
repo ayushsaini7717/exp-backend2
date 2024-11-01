@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 // import jwt, { JwtPayload } from 'jsonwebtoken';
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const IsloggedIn_1 = __importDefault(require("../middlewares/IsloggedIn"));
 const verfication_1 = __importDefault(require("../middlewares/verfication"));
 const router = express_1.default.Router();
 const client_1 = require("@prisma/client");
@@ -31,10 +30,9 @@ router.post('/signup', verfication_1.default, (req, res) => __awaiter(void 0, vo
                 monthlyBudget: body.monthlyBudget
             }
         });
-        const token = jsonwebtoken_1.default.sign(body.username, 'ayush-secret');
+        const token = jsonwebtoken_1.default.sign(body.password, 'ayush-secret');
         return res.json({
-            token: token,
-            userId: user.id
+            token: token
         });
     }
     catch (error) {
@@ -58,33 +56,12 @@ router.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
         const token = jsonwebtoken_1.default.sign(body.username, 'ayush-secret');
         return res.json({
-            token: token,
-            userId: user.id
+            token: token
         });
     }
     catch (e) {
         console.log(e);
         return res.send('Incorrect username or password');
-    }
-}));
-router.post('/addincome', IsloggedIn_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const body = req.body;
-    let Id = req.body.userId;
-    try {
-        const addincome = yield prisma.user.update({
-            where: {
-                id: Id,
-            }, data: {
-                monthlyBudget: { increment: body.amount }
-            }
-        });
-        return res.json({
-            msg: "Done!"
-        });
-    }
-    catch (e) {
-        console.log(e);
-        return res.send("money not added!");
     }
 }));
 router.get('/check', (req, res) => {

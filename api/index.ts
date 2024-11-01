@@ -4,17 +4,8 @@ const app=express();
 import router from "../Routes/userRoute";
 import expense from '../Routes/expenseRoute';
 import cors from 'cors';
-import helmet from 'helmet';
 
 app.use(cors());
-
-app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'none'; script-src 'self' https://vercel.live;"
-  );
-  next();
-});
 
 
 

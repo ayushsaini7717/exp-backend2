@@ -18,9 +18,22 @@ expense.use(express_1.default.json());
 const IsloggedIn_1 = __importDefault(require("../middlewares/IsloggedIn"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-expense.post('/spend', IsloggedIn_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+expense.post('/transaction', IsloggedIn_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
-    let Id = req.body.userId;
+    let Id = "";
+    try {
+        const User = yield prisma.user.findFirst({
+            where: {
+                username: body.username,
+                password: body.password
+            }
+        });
+        Id = User === null || User === void 0 ? void 0 : User.id;
+    }
+    catch (e) {
+        console.log(e);
+        return res.send("something went wrong");
+    }
     try {
         const income = yield prisma.user.findFirst({
             where: {
@@ -52,11 +65,12 @@ expense.post('/spend', IsloggedIn_1.default, (req, res) => __awaiter(void 0, voi
 }));
 expense.post('/totalincome', IsloggedIn_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
-    let Id = req.body.userId;
+    let Id = "";
     try {
         const User = yield prisma.user.findFirst({
             where: {
-                id: Id
+                username: body.username,
+                password: body.password
             }, select: {
                 monthlyBudget: true
             }
@@ -73,9 +87,23 @@ expense.post('/totalincome', IsloggedIn_1.default, (req, res) => __awaiter(void 
 expense.post('/totalexpense', IsloggedIn_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     let totalexpense = 0;
-    let Id = req.body.userId;
+    let Id = "";
+    try {
+        const User = yield prisma.user.findFirst({
+            where: {
+                username: body.username,
+                password: body.password
+            }
+        });
+        Id = User === null || User === void 0 ? void 0 : User.id;
+    }
+    catch (e) {
+        console.log(e);
+        return res.send("something went wrong");
+    }
     const date = new Date();
     const currmonth = date.getMonth() + 1;
+    // console.log(currmonth);
     const Expense = yield prisma.expense.findMany({
         where: {
             userId: Id,
@@ -92,12 +120,24 @@ expense.post('/totalexpense', IsloggedIn_1.default, (req, res) => __awaiter(void
 expense.post('/monthlyexpense', IsloggedIn_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     let totalexpense = 0;
-    let Id = req.body.userId;
-    const date = new Date();
+    let Id = "";
+    try {
+        const User = yield prisma.user.findFirst({
+            where: {
+                username: body.username,
+                password: body.password
+            }
+        });
+        Id = User === null || User === void 0 ? void 0 : User.id;
+    }
+    catch (e) {
+        console.log(e);
+        return res.send("something went wrong");
+    }
     const userExpense = yield prisma.expense.findMany({
         where: {
             userId: Id,
-            year: date.getFullYear()
+            year: 2024
         }
     });
     let arr = new Array(12).fill(0);
@@ -109,7 +149,20 @@ expense.post('/monthlyexpense', IsloggedIn_1.default, (req, res) => __awaiter(vo
 expense.post('/expenselist', IsloggedIn_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     let totalexpense = 0;
-    let Id = req.body.userId;
+    let Id = "";
+    try {
+        const User = yield prisma.user.findFirst({
+            where: {
+                username: body.username,
+                password: body.password
+            }
+        });
+        Id = User === null || User === void 0 ? void 0 : User.id;
+    }
+    catch (e) {
+        console.log(e);
+        return res.send("something went wrong");
+    }
     const date = new Date();
     const currmonth = date.getMonth() + 1;
     const list = yield prisma.expense.findMany({
@@ -122,6 +175,8 @@ expense.post('/expenselist', IsloggedIn_1.default, (req, res) => __awaiter(void 
             categories: true
         }
     });
+    // console.log("count is: "+list.length+" array is: "+list);
+    // console.log(list);
     return res.json({
         count: list.length,
         list: list
