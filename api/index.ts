@@ -1,8 +1,8 @@
 import express, { NextFunction,Response,Request } from 'express';
 const port=3000;
 const app=express();
-import router from "./userRoute";
-import expense from './expenseRoute';
+import router from "../Routes/userRoute";
+import expense from '../Routes/expenseRoute';
 import cors from 'cors';
 import helmet from 'helmet';
 
