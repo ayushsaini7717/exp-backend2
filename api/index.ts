@@ -8,28 +8,15 @@ import helmet from 'helmet';
 
 app.use(cors());
 
-app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        defaultSrc: ["'self'"],
-        fontSrc: ["'self'"],
-        imgSrc: ["'self'"],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'"],
-        frameSrc: ["'self'"],
-        upgradeInsecureRequests: [], // Now this will take effect
-      },
-      reportOnly: false, // Enforces the policy
-    })
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'none'; script-src 'self' https://vercel.live;"
   );
+  next();
+});
 
 
- 
-
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
-  });
 
 app.use('/api/v1/user',router);
 app.use('/api/v1/expense',expense);
