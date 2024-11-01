@@ -22,7 +22,7 @@ app.use(cors());
 const cspMiddleware = (req: Request, res: Response, next: NextFunction) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; img-src 'self' https://expense-backend-xpxu.vercel.app; script-src-elem 'self' https://vercel.live; connect-src 'self' https://vercel.live"
+    "default-src *; img-src 'self' https://expense-backend-xpxu.vercel.app; script-src-elem 'self' https://vercel.live; connect-src 'self' https://vercel.live"
   );
   next();
 };
